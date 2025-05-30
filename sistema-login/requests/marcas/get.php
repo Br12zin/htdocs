@@ -1,12 +1,12 @@
 <?php
-if(isset($key) && is_numeric($key)){
-    $url = "http://localhost:8080/clientes/?id=". $key;
-}else{
-    $url = "http://localhost:8080/clientes/";
+if (isset($key) && is_numeric($key)) {
+    $url = "http://localhost:8080/marcas/?id=" . $key;
+} else {
+    $url = "http://localhost:8080/marcas/";
 }
-// INICIAR SESSÃO GLOBAL
+
 $curl = curl_init();
-// CONFIGURAR O CURL
+
 curl_setopt_array($curl, array(
     CURLOPT_URL => $url,
     CURLOPT_RETURNTRANSFER => true,
@@ -16,13 +16,13 @@ curl_setopt_array($curl, array(
         'Content-Type: application/json'
     ),
 ));
-// RECUPERA O RETORNO DO CURL
+
 $response = curl_exec($curl);
-// ENCERRAR O CURL
 curl_close($curl);
 
-if(empty($response)) {
+if (empty($response)) {
     $response = array();
 } else {
     $response = json_decode($response, true);
 }
+?>

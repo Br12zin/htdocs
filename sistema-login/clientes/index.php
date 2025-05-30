@@ -7,7 +7,13 @@ $pagina = "clientes";
 
 if (isset($_GET["key"])) {
     $key = $_GET["key"];
-    $client = $_SESSION["clientes"][$key];
+    // BUSCA O CLIENTE PELO ID
+    require("../requests/clientes/get.php");
+    if (isset($response["data"]) && !empty($response["data"])) {
+        $client = $response["data"][0]; //se houver dados Pega o primeiro e único cliente na posição[0]
+    } else {
+        $client = null; // Se não encontrar, define como nulo
+    }
 }
 
 ?>
@@ -38,30 +44,30 @@ if (isset($_GET["key"])) {
                     Cadastrar Cliente
                     <a href="/clientes" class="btn btn-primary btn-sm">Novo Cliente</a>
                 </h2>
-                <form id="clientForm" action="cadastrar.php" method="POST" enctype="multipart/form-data">
+                <form id="clientForm" action="/clientes/cadastrar.php" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="clientId" class="form-label">Código do Cliente</label>
-                        <input type="text" class="form-control" id="clientId" name="clientId" readonly value="<?php echo isset($key) ? $key : ""; ?>">
+                        <input type="text" class="form-control" id="clientId" name="clientId" readonly value="<?php echo isset($client) ? $client["id_cliente"] : ""; ?>">
                     </div>
                     <div class="mb-3">
                         <label for="clientName" class="form-label">Nome do Cliente</label>
-                        <input onblur="teste()" type="text" class="form-control" id="clientName" name="clientName" required value="<?php echo isset($client) ? $client["clientName"] : ""; ?>">
+                        <input onblur="teste()" type="text" class="form-control" id="clientName" name="clientName" required value="<?php echo isset($client) ? $client["nome"] : ""; ?>">
                     </div>
                     <div class="mb-3">
                         <label for="clientCPF" class="form-label">CPF</label>
-                        <input data-mask="000.000.000-00" type="text" class="form-control" id="clientCPF" name="clientCPF" required value="<?php echo isset($client) ? $client["clientCPF"] : ""; ?>">
+                        <input data-mask="000.000.000-00" type="text" class="form-control" id="clientCPF" name="clientCPF" required value="<?php echo isset($client) ? $client["cpf"] : ""; ?>">
                     </div>
                     <div class="mb-3">
                         <label for="clientEmail" class="form-label">E-mail</label>
-                        <input type="email" class="form-control" id="clientEmail" name="clientEmail" required value="<?php echo isset($client) ? $client["clientEmail"] : ""; ?>">
+                        <input type="email" class="form-control" id="clientEmail" name="clientEmail" required value="<?php echo isset($client) ? $client["email"] : ""; ?>">
                     </div>
                     <div class="mb-3">
                         <label for="clientWhatsapp" class="form-label">Whatsapp</label>
-                        <input data-mask="(00) 0 0000-0000" type="text" class="form-control" id="clientWhatsapp" name="clientWhatsapp" required value="<?php echo isset($client) ? $client["clientWhatsapp"] : ""; ?>">
+                        <input data-mask="(00) 0 0000-0000" type="text" class="form-control" id="clientWhatsapp" name="clientWhatsapp" required value="<?php echo isset($client) ? $client["whatsapp"] : ""; ?>">
                     </div>
                     <div class="mb-3">
                         <label for="clientImage" class="form-label">Imagem</label>
-                        <input type="file" class="form-control" id="clientImage" name="clientImage" accept="image/*" value="<?php echo isset($client) ? $client["clientImage"] : ""; ?>">
+                        <input type="file" class="form-control" id="clientImage" name="clientImage" accept="image/*" value="<?php echo isset($client) ? $client["imagem"] : ""; ?>">
                     </div>
 
                     <?php
@@ -70,75 +76,38 @@ if (isset($_GET["key"])) {
                         echo '
                         <div class="mb-3">
                             <input type="hidden" name="currentClientImage" value="' . $client["clientImage"] . '">
-                            <img width="100" src="imagens/' . $client["clientImage"] . '">
+                            <img width="100" src="/clientes/imagens/' . $client["imagem"] . '">
                         </div>
                         ';
                     }
                     ?>
                     <div class="mb-3">
                         <label for="clientCEP" class="form-label">CEP</label>
-                        <input data-mask="00000-000" type="text" class="form-control" id="clientCEP" name="clientCEP" required value="<?php echo isset($client) ? $client["clientCEP"] : ""; ?>">
+                        <input data-mask="00000-000" type="text" class="form-control" id="clientCEP" name="clientCEP" required value="<?php echo isset($client) ? $client["endereco"]["cep"] : ""; ?>">
                     </div>
                     <div class="mb-3">
                         <label for="clientAddress" class="form-label">Logradouro</label>
-                        <input type="text" class="form-control" id="clientAddress" name="clientAddress" required value="<?php echo isset($client) ? $client["clientAddress"] : ""; ?>">
+                        <input type="text" class="form-control" id="clientAddress" name="clientAddress" required value="<?php echo isset($client) ? $client["endereco"]["logradouro"] : ""; ?>">
                     </div>
                     <div class="mb-3">
                         <label for="clientNumber" class="form-label">Número</label>
-                        <input type="text" class="form-control" id="clientNumber" name="clientNumber" required value="<?php echo isset($client) ? $client["clientNumber"] : ""; ?>">
+                        <input type="text" class="form-control" id="clientNumber" name="clientNumber" required value="<?php echo isset($client) ? $client["endereco"]["numero"] : ""; ?>">
                     </div>
                     <div class="mb-3">
                         <label for="clientComplement" class="form-label">Complemento</label>
-                        <input type="text" class="form-control" id="clientComplement" name="clientComplement" value="<?php echo isset($client) ? $client["clientComplement"] : ""; ?>">
+                        <input type="text" class="form-control" id="clientComplement" name="clientComplement" value="<?php echo isset($client) ? $client["endereco"]["complemento"] : ""; ?>">
                     </div>
                     <div class="mb-3">
                         <label for="clientNeighborhood" class="form-label">Bairro</label>
-                        <input type="text" class="form-control" id="clientNeighborhood" name="clientNeighborhood" required value="<?php echo isset($client) ? $client["clientNeighborhood"] : ""; ?>">
+                        <input type="text" class="form-control" id="clientNeighborhood" name="clientNeighborhood" required value="<?php echo isset($client) ? $client["endereco"]["bairro"] : ""; ?>">
                     </div>
                     <div class="mb-3">
                         <label for="clientCity" class="form-label">Cidade</label>
-                        <input type="text" class="form-control" id="clientCity" name="clientCity" required value="<?php echo isset($client) ? $client["clientCity"] : ""; ?>">
+                        <input type="text" class="form-control" id="clientCity" name="clientCity" readonly value="<?php echo isset($client) ? $client["endereco"]["cidade"] : ""; ?>">
                     </div>
                     <div class="mb-3">
                         <label for="clientState" class="form-label">Estado (UF)</label>
-                        <select class="form-select" id="clientState" name="clientState" required>
-                            <option value="">Selecione um estado</option>
-                            <?php
-                            $ufs = [
-                                "AC",
-                                "AL",
-                                "AP",
-                                "AM",
-                                "BA",
-                                "CE",
-                                "DF",
-                                "ES",
-                                "GO",
-                                "MA",
-                                "MT",
-                                "MS",
-                                "MG",
-                                "PA",
-                                "PB",
-                                "PR",
-                                "PE",
-                                "PI",
-                                "RJ",
-                                "RN",
-                                "RS",
-                                "RO",
-                                "RR",
-                                "SC",
-                                "SP",
-                                "SE",
-                                "TO"
-                            ];
-                            foreach ($ufs as $uf) {
-                                $selected = (isset($client) && $client["clientState"] === $uf) ? "selected" : "";
-                                echo "<option value='$uf' $selected>$uf</option>";
-                            }
-                            ?>
-                        </select>
+                        <input type="text" class="form-control" id="clientState" name="clientState" readonly value="<?php echo isset($client) ? $client["endereco"]["estado"] : ""; ?>">
                     </div>
 
 
@@ -167,14 +136,15 @@ if (isset($_GET["key"])) {
                     <tbody id="clientTableBody">
                         <!-- Os clientes serão carregados aqui via PHP -->
                         <?php
-                        // SE HOUVER CLIENTES NA SESSÃO, EXIBIR
+                        // SE HOUVER CLIENTES NA SESSÃO, EXIBIR                        
+                        $key = null; //limpar a variável $key para trazer todos os clientes
                         require("../requests/clientes/get.php");
                         if (!empty($response)) {
                             foreach ($response["data"] as $key => $client) {
                                 echo '
                                 <tr>
                                     <th scope="row">' . $client["id_cliente"] . '</th>
-                                    <td><img width="60" src="imagens/' . $client["imagem"] . '"></td>
+                                    <td><img width="60" src="/clientes/imagens/' . $client["imagem"] . '"></td>
                                     <td>' . $client["nome"] . '</td>
                                     <td>' . $client["cpf"] . '</td>
                                     <td>' . $client["email"] . '</td>

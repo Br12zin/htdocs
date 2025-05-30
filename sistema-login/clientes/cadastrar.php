@@ -49,7 +49,7 @@ try{
         require("../requests/clientes/post.php");
     } else {
         $postfields = array(
-            "id_cliente" => $_POST["clientId"],
+            "id" => $_POST["clientId"],
             "nome" => $_POST["clientName"],
             "email" => $_POST["clientEmail"],
             "cpf" => $_POST["clientCPF"],

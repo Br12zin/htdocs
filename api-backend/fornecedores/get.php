@@ -8,8 +8,8 @@ try {
         // Monta a sintaxe SQL de busca
         $sql = "
             SELECT * 
-            FROM clientes
-            WHERE id_cliente = :id
+            FROM fornecedor
+            WHERE id_fornecedor = :id
         ";
 
         // Preparar a sintaxe SQL
@@ -24,7 +24,7 @@ try {
         // Monta a sintaxe SQL de busca
         $sql = "
             SELECT * 
-            FROM clientes
+            FROM fornecedor
             WHERE nome LIKE :nome
             ORDER BY nome
         ";
@@ -42,7 +42,7 @@ try {
         // Monta a sintaxe SQL de busca
         $sql = "
             SELECT * 
-            FROM clientes
+            FROM fornecedor
             WHERE cidade LIKE :cidade
             ORDER BY nome
         ";
@@ -57,7 +57,7 @@ try {
         // Monta a sintaxe SQL de busca
         $sql = "
             SELECT * 
-            FROM clientes
+            FROM fornecedor
             ORDER BY nome
         ";
         
@@ -77,15 +77,15 @@ try {
         exit;
     } else {
         // Organizar o endereço como objeto
-        foreach ($data as $key => $cliente) {
+        foreach ($data as $key => $fornecedor) {
             $data[$key]->endereco = array(
-                'logradouro' => $cliente->logradouro,
-                'numero' => $cliente->numero,
-                'complemento' => $cliente->complemento,
-                'bairro' => $cliente->bairro,
-                'cidade' => $cliente->cidade,
-                'estado' => $cliente->estado,
-                'cep' => $cliente->cep
+                'logradouro' => $fornecedor->logradouro,
+                'numero' => $fornecedor->numero,
+                'complemento' => $fornecedor->complemento,
+                'bairro' => $fornecedor->bairro,
+                'cidade' => $fornecedor->cidade,
+                'estado' => $fornecedor->estado,
+                'cep' => $fornecedor->cep
             );
             // Remove os campos que não são mais necessários
             unset($data[$key]->logradouro);
@@ -116,4 +116,5 @@ try {
     $conn = null;
 }
 exit;
+
 

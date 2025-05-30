@@ -27,27 +27,55 @@ $pagina = "home";
     include "navbar.php";
     ?>
 
-    <!-- Conteúdo principal -->
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-12">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body text-center">
-                                <i class="bi bi-people" style="font-size: 2rem;"></i>
-                                <h5 class="card-title mt-2">Clientes
-                                    (<?php echo isset($_SESSION["clientes"]) ? count($_SESSION["clientes"]) : 0;?>)</h5>
-                            </div>
-                            <div class="card-footer text-center">
-                                <a href="<?php echo $_SESSION["url"];?>/clientes" class="btn btn-primary">Acessar</a>
-                            </div>
-                        </div>
-                    </div>
+   <!-- Conteúdo principal -->
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <!-- Card Clientes -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-people" style="font-size: 2rem;"></i>
+                    <h5 class="card-title mt-2">Clientes
+                        (<?php echo isset($_SESSION["clientes"]) ? count($_SESSION["clientes"]) : 0; ?>)
+                    </h5>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="<?php echo $_SESSION["url"]; ?>/clientes" class="btn btn-primary">Acessar</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Fornecedores -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-truck" style="font-size: 2rem;"></i>
+                    <h5 class="card-title mt-2">Fornecedores
+                        (<?php echo isset($_SESSION["fornecedores"]) ? count($_SESSION["fornecedores"]) : 0; ?>)
+                    </h5>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="<?php echo $_SESSION["url"]; ?>/fornecedores" class="btn btn-primary">Acessar</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Produtos -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-box-seam" style="font-size: 2rem;"></i>
+                    <h5 class="card-title mt-2">Produtos
+                        (<?php echo isset($_SESSION["produtos"]) ? count($_SESSION["produtos"]) : 0; ?>)
+                    </h5>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="<?php echo $_SESSION["url"]; ?>/produtos" class="btn btn-primary">Acessar</a>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Bootstrap JS (opcional, para funcionalidades como o menu hamburguer) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

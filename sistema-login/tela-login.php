@@ -54,6 +54,16 @@ if (
             </div>
         </div>
     </div>
+    <div class="container mt-3">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <!-- ACTION É O CAMINHO DO ARQUIVO QUE VAI RECEBER OS DADOS -->
+                <form method="post" action="">
+                    <button type="submit" class="btn btn-secondary w-100 ">cadastre-se</button>
+                </form>
+            </div>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

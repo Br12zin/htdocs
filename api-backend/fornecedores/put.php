@@ -67,7 +67,7 @@ try {
 
         $result = array(
             'status' => 'success',
-            'message' => 'Cliente alterado com sucesso!'
+            'message' => 'Fornecedor alterado com sucesso!'
         );
 
 

@@ -9,6 +9,7 @@ if (isset($_GET["key"])) {
     $key = $_GET["key"];
     // BUSCA O CLIENTE PELO ID
     require("../requests/produtos/get.php");
+    $key = null; //limpar a variável $key para trazer todos os clientes
     if (isset($response["data"]) && !empty($response["data"])) {
         $product = $response["data"][0]; //se houver dados Pega o primeiro e único cliente na posição[0]
     } else {
@@ -27,6 +28,7 @@ if (isset($_GET["key"])) {
     <title>Dashboard - Cadastro de Clientes</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -35,79 +37,18 @@ if (isset($_GET["key"])) {
     include "../navbar.php";
     ?>
 
-    <!-- Conteúdo principal -->
+<!-- Conteúdo principal -->
     <div class="container mt-5">
         <div class="row">
-            <div class="col-md-6">
-                <!-- Formulário de cadastro de clientes -->
-                <h2>
-                    Cadastrar Produto
-                    <a href="/produtos" class="btn btn-primary btn-sm">Novo Produto</a>
-                </h2>
-                <form id="clientForm" action="/produtos/cadastrar.php" method="POST" enctype="multipart/form-data">
-                    <div class="mb-3">
-                        <label for="productId" class="form-label">Código do produto</label>
-                        <input type="text" class="form-control" id="productId" name="productId" readonly value="<?php echo isset($product) ? $product["id_produto"] : ""; ?>">
-                    </div>
-                    <div class="mb-3">
-                        <label for="clientName" class="form-label">Nome do produto</label>
-                        <input onblur="teste()" type="text" class="form-control" id="clientName" name="clientName" required value="<?php echo isset($product) ? $product["produto"] : ""; ?>">
-                    </div>
-                    <div class="mb-3">
-                        <label for="clientImage" class="form-label">Imagem</label>
-                        <input type="file" class="form-control" id="clientImage" name="clientImage" accept="image/*" value="<?php echo isset($product) ? $product["imagem"] : ""; ?>">
-                    </div>
-                    <?php
-                    // SE HOUVER IMAGEM NO CLIENTE, EXIBIR MINIATURA
-                    if (isset($product["productImage"])) {
-                        echo '
-                        <div class="mb-3">
-                            <input type="hidden" name="currentProductImage" value="' . $product["productImage"] . '">
-                            <img width="100" src="/produtos/imagens/' . $product["imagem"] . '">
-                        </div>
-                        ';
-                    }
-                    ?>
-                    <div class="mb-3">
-                        <label for="productDescription" class="form-label">Descrição</label>
-                        <textarea class="form-control" id="productDescription" name="productDescription" placeholder="Descrição produto..." rows="3" required><?php echo isset($product) ? $product["descricao"] : ""; ?></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="productBrand" class="form-label">Marca</label>
-                        <select class="form-select" id="productBrand" name="productBrand" required>
-                            <option value="" disabled selected>Selecione uma marca...</option>
-                            <?php
-                            require("../requests/marcas/get.php");
-                            if (!empty($response)) {
-                                foreach ($response["data"] as $marca) {
-                                    echo '<option value="' . $marca["id_marca"] . '">' . $marca["marca"] . '</option>';
-                                }
-                            } else {
-                                echo '<option value="" disabled>Nenhuma Marca cadastrada</option>';
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="productQuantity" class="form-label">Quantidade</label>
-                        <input type="number" class="form-control" id="productQuantity" name="productQuantity" required value="<?php echo isset($product) ? $product["quantidade"] : ""; ?>">
-                    </div>
-                    <div class="mb-3">
-                        <label for="productPrice" class="form-label">Preço</label>
-                        <input type="text" class="form-control" id="productPrice" name="productPrice" required value="<?php echo isset($product) ? number_format($product["productPrice"], 2, ',', '.') : ''; ?>" placeholder="0,00">
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Salvar</button>
-                </form>
-            </div>
-            <div class="col-md-6">
+            <div class="col-md">
                 <!-- Tabela de clientes cadastrados -->
                 <h2>
                     Produtos Cadastrados
+                    <a href="/produtos/formulario.php" class="btn btn-primary btn-sm">Novo Produto</a>
                     <a href="exportar.php" class="btn btn-success btn-sm float-left">Excel</a>
                     <a href="exportar_pdf.php" class="btn btn-danger btn-sm float-left">PDF</a>
                 </h2>
-                <table class="table table-striped">
+                <table id="myTable" class="table table-striped">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -117,6 +58,8 @@ if (isset($_GET["key"])) {
                             <th scope="col">Marca</th>
                             <th scope="col">Quantidade</th>
                             <th scope="col">Preço</th>
+                            <th scope="col"></th>
+
 
                         </tr>
                     </thead>
@@ -124,7 +67,6 @@ if (isset($_GET["key"])) {
                         <!-- Os clientes serão carregados aqui via PHP -->
                         <?php
                         // SE HOUVER CLIENTES NA SESSÃO, EXIBIR                        
-                        $key = null; //limpar a variável $key para trazer todos os clientes
                         require("../requests/produtos/get.php");
                         if (!empty($response)) {
                             foreach ($response["data"] as $key => $product) {
@@ -138,7 +80,7 @@ if (isset($_GET["key"])) {
                                     <td>' . $product["quantidade"] . '</td>
                                     <td>' . $product["preco"] . '</td>
                                     <td>
-                                        <a href="/produtos/?key=' . $product["id_produto"] . '" class="btn btn-warning">Editar</a>
+                                        <a href="/produtos/formulario.php?key=' . $product["id_produto"] . '" class="btn btn-warning">Editar</a>
                                         <a href="/produtos/remover.php?key=' . $product["id_produto"] . '" class="btn btn-danger">Excluir</a>
                                     </td>
                                 </tr>
@@ -152,11 +94,13 @@ if (isset($_GET["key"])) {
                             ';
                         }
                         ?>
+
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+
 
     <!-- Bootstrap JS (opcional, para funcionalidades como o menu hamburguer) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -165,39 +109,15 @@ if (isset($_GET["key"])) {
     <!-- jQuery Mask Plugin -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
+    <!-- datatables -->
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
     <script>
-        $('#clientCEP').on('blur', function() {
-            var cep = $(this).val().replace(/\D/g, '');
-            // Verifica se o CEP tem 8 dígitos
-            if (cep.length === 8) {
-                // Faz a requisição para a API ViaCEP
-                $.getJSON('https://viacep.com.br/ws/' + cep + '/json/?callback=?', function(data) {
-                    if (!data.erro) {
-                        $('#clientAddress').val(data.logradouro);
-                        $('#clientNeighborhood').val(data.bairro);
-                        $('#clientCity').val(data.localidade);
-                        $('#clientState').val(data.uf);
-                    } else {
-                        alert('CEP não encontrado.');
-                        $("#clientCEP").val("");
-                        $("#clientAddress").val("");
-                        $("#clientNeighborhood").val("");
-                        $("#clientCity").val("");
-                        $("#clientState").val("");
-                    }
-                });
-            } else {
-                alert('Formato de CEP inválido.');
-                // Limpa os campos de endereço
-                $("#clientCEP").val("");
-                $("#clientAddress").val("");
-                $("#clientNeighborhood").val("");
-                $("#clientCity").val("");
-                $("#clientState").val("");
+        let table = new DataTable('#myTable', {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.3.2/i18n/pt-BR.json',
             }
         });
     </script>
-
 </body>
 
 </html>

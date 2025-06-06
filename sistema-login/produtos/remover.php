@@ -11,7 +11,7 @@ if(isset($_GET["key"])) {
     // }
 
     // REQUISITAR A EXCLUSÃO DO CLIENTE
-    require("../requests/clientes/delete.php");
+    require("../requests/produtos/delete.php");
     $_SESSION["msg"] = $response["message"];
 }
 header("Location: ./");

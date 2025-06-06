@@ -25,6 +25,7 @@ try {
         $sql = "
             SELECT * 
             FROM produtos
+            JOIN marcas ON produtos.id_marca = marcas.id_marca
             WHERE produto LIKE :produto
             ORDER BY produto
         ";
@@ -35,17 +36,35 @@ try {
         $stmt->bindValue(':produto', '%' . $produto . '%', PDO::PARAM_STR);
 
     }
-    else {
+    elseif (isset($_GET["id_marca"]) && is_string($_GET["id_marca"])) {
+        $id_marca = $_GET["id_marca"];
+
         // Monta a sintaxe SQL de busca
         $sql = "
             SELECT * 
             FROM produtos
+            WHERE id_marca = :id_marca
+            ORDER BY produto
+        ";
+
+        // Preparar a sintaxe SQL
+        $stmt = $conn->prepare($sql);
+        // Vincular o parâmetro :nome com o valor da variável $nome
+        $stmt->bindValue(':id_marca', '%' . $id_marca . '%', PDO::PARAM_STR);
+
+    }
+    else{
+        // Monta a sintaxe SQL de busca
+        $sql = "
+            SELECT * 
+            FROM produtos
+            JOIN marcas ON produtos.id_marca = marcas.id_marca
             ORDER BY produto
         ";
         
         // Preparar a sintaxe SQL
         $stmt = $conn->prepare($sql);
-    }
+    } 
 
     // Executar a sintaxe SQL
     $stmt->execute();

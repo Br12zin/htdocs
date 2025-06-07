@@ -27,7 +27,7 @@ if (isset($_GET["key"])) {
     <title>Dashboard - Cadastro de Clientes</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css" rel="stylesheet">
+    <!-- <link href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css" rel="stylesheet"> -->
 </head> 
 
 <body>
@@ -56,7 +56,7 @@ if (isset($_GET["key"])) {
                             <th scope="col">CPF</th>
                             <th scope="col">E-mail</th>
                             <th scope="col">Whatsapp</th>
-                            <th scope="col">Ações</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody id="clientTableBody">
@@ -102,14 +102,14 @@ if (isset($_GET["key"])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- datatables -->
-    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
     <script>
         let table = new DataTable('#myTable', {
             language: {
-                url: '//cdn.datatables.net/plug-ins/2.3.2/i18n/pt-BR.json',
+                url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/pt-BR.json',
             }
         });
-    </script>
+    </script> -->
 
     
 

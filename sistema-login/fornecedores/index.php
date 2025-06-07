@@ -27,7 +27,7 @@ if (isset($_GET["key"])) {
     <title>Dashboard - Cadastro de fornecedores</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css" rel="stylesheet">
+    <!-- <link href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css" rel="stylesheet"> -->
 </head>
 
 <body>
@@ -105,14 +105,14 @@ if (isset($_GET["key"])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
 
-    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
     <script>
         let table = new DataTable('#myTable', {
             language: {
-                url: '//cdn.datatables.net/plug-ins/2.3.2/i18n/pt-BR.json',
+                url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/pt-BR.json',
             }
         });
-    </script>
+    </script> -->
 
 </body>
 

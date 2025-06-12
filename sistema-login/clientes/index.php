@@ -27,8 +27,8 @@ if (isset($_GET["key"])) {
     <title>Dashboard - Cadastro de Clientes</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- <link href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css" rel="stylesheet"> -->
-</head> 
+    <link href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css" rel="stylesheet">
+</head>
 
 <body>
     <?php
@@ -37,31 +37,39 @@ if (isset($_GET["key"])) {
     ?>
 
     <!-- Conteúdo principal -->
-    <div class="container mt-5">
+    <div class="container-fluid mt-5 vh-full">
         <div class="row">
             <div class="col-md">
-                <!-- Tabela de clientes cadastrados -->
-                <h2>
-                    Clientes Cadastrados
-                    <a href="/clientes/formulario.php" class="btn btn-primary btn-sm">Novo Cliente</a>
-                    <a href="exportar.php" class="btn btn-success btn-sm float-left">Excel</a>
-                    <a href="exportar_pdf.php" class="btn btn-danger btn-sm float-left">PDF</a>
-                </h2>
-                <table id="myTable" class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Imagem</th>
-                            <th scope="col">Nome</th>
-                            <th scope="col">CPF</th>
-                            <th scope="col">E-mail</th>
-                            <th scope="col">Whatsapp</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody id="clientTableBody">
-                        <!-- Os clientes serão carregados aqui via PHP -->
-                        <?php
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h2>
+                            Clientes Cadastrados
+
+                        </h2>
+                        <div>
+                            <a href="/clientes/formulario.php" class="btn btn-primary btn-sm">Novo Cliente</a>
+                            <a href="exportar.php" class="btn btn-success btn-sm float-left">Excel</a>
+                            <a href="exportar_pdf.php" class="btn btn-danger btn-sm float-left">PDF</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Tabela de clientes cadastrados -->
+
+                        <table id="myTable" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Imagem</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">CPF</th>
+                                    <th scope="col">E-mail</th>
+                                    <th scope="col">Whatsapp</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="clientTableBody">
+                                <!-- Os clientes serão carregados aqui via PHP -->
+                                <?php
                         // SE HOUVER CLIENTES NA SESSÃO, EXIBIR                        
                         $key = null; //limpar a variável $key para trazer todos os clientes
                         require("../requests/clientes/get.php");
@@ -90,8 +98,10 @@ if (isset($_GET["key"])) {
                             ';
                         }
                         ?>
-                    </tbody>
-                </table>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,16 +112,16 @@ if (isset($_GET["key"])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- datatables -->
-    <!-- <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
     <script>
-        let table = new DataTable('#myTable', {
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/pt-BR.json',
-            }
-        });
-    </script> -->
+    let table = new DataTable('#myTable', {
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/pt-BR.json',
+        }
+    });
+    </script>
 
-    
+
 
 </body>
 

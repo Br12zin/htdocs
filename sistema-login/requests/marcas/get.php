@@ -1,8 +1,8 @@
 <?php
 if (isset($key) && is_numeric($key)) {
-    $url = "http://localhost:8080/marcas/?id=" . $key;
+    $url = "http://localhost:8082/marcas/?id=" . $key;
 } else {
-    $url = "http://localhost:8080/marcas/";
+    $url = "http://localhost:8082/marcas/";
 }
 
 $curl = curl_init();

@@ -36,47 +36,70 @@ if (isset($_GET["key"])) {
     include "../navbar.php";
     ?>
 
-<!-- Conteúdo principal -->
+    <!-- Conteúdo principal -->
     <div class="container mt-5">
         <div class="row">
             <div class="col-md">
-                <!-- Formulário de cadastro de clientes -->
-                <h2>
-                    Cadastrar Produto
-                </h2>
-                <form id="clientForm" action="/produtos/cadastrar.php" method="POST" enctype="multipart/form-data">
-                    <div class="mb-3">
-                        <label for="productId" class="form-label">Código do produto</label>
-                        <input type="text" class="form-control" id="productId" name="productId" readonly value="<?php echo isset($product) ? $product["id_produto"] : ""; ?>">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>
+                            Cadastrar Produto
+                        </h2>
                     </div>
-                    <div class="mb-3">
-                        <label for="productName" class="form-label">Nome do produto</label>
-                        <input onblur="teste()" type="text" class="form-control" id="productName" name="productName" required value="<?php echo isset($product) ? $product["produto"] : ""; ?>">
-                    </div>
-                    <div class="mb-3">
-                        <label for="productImage" class="form-label">Imagem</label>
-                        <input type="file" class="form-control" id="productImage" name="productImage" accept="image/*" value="<?php echo isset($product) ? $product["imagem"] : ""; ?>">
-                    </div>
-                    <?php
-                    // SE HOUVER IMAGEM NO CLIENTE, EXIBIR MINIATURA
-                    if (isset($product["imagem"])) {
-                        echo '
-                        <div class="mb-3">
-                            <input type="hidden" name="currentProductImage" value="' . $product["imagem"] . '">
-                            <img width="100" height="100" src="/produtos/imagens/' . $product["imagem"] . '">
+                    <div class="card-body">
+                        <!-- Formulário de cadastro de clientes -->
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <form id="productForm" action="/produtos/cadastrar.php" method="POST"
+                                    enctype="multipart/form-data">
+                                    <label for="productId" class="form-label">Código do produto</label>
+                                    <input type="text" class="form-control" id="productId" name="productId" readonly
+                                        value="<?php echo isset($product) ? $product["id_produto"] : ""; ?>">
+                            </div>
+                            <div class="col-md-9">
+                                <label for="productName" class="form-label">Nome do produto</label>
+                                <input onblur="teste()" type="text" class="form-control" id="productName"
+                                    name="productName" required
+                                    value="<?php echo isset($product) ? $product["produto"] : ""; ?>">
+                            </div>
                         </div>
-                        ';
-                    }
-                    ?>
-                    <div class="mb-3">
-                        <label for="productDescription" class="form-label">Descrição</label>
-                        <textarea class="form-control" id="productDescription" name="productDescription" placeholder="Descrição produto..." rows="3" required><?php echo isset($product) ? $product["descricao"] : ""; ?></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="productBrand" class="form-label">Marca</label>
-                        <select class="form-select" id="productBrand" name="productBrand" required>
-                            <option value="" disabled selected>Selecione uma marca...</option>
+
+                        <div class="row mb-3">
+                            <div class="col-md-7">
+                                <div class="mb-3">
+                                    <label for="productImage" class="form-label">Imagem</label>
+                                    <input type="file" class="form-control" id="productImage" name="productImage"
+                                        accept="image/*" value="<?php echo isset($product) ? $product["imagem"] : ""; ?>">
+                                </div>
+                            </div>
+                            <div class="col-md-3 d-flex align-items-center"> 
                             <?php
+                                // SE HOUVER IMAGEM NO CLIENTE, EXIBIR MINIATURA
+                                if (isset($product["imagem"])) {
+                                    echo '
+                                        <input type="hidden" name="currentProductImage" value="' . $product["imagem"] . '">
+                                        <img width="100" height="auto" src="/produtos/imagens/' . $product["imagem"] . '">
+                                    ';
+                                }
+                                ?>
+                                </div>
+                        </div>
+
+                        <div class="row mb-3 mt-3">
+                            <div class="col-md-8">
+                                <label for="productDescription" class="form-label">Descrição</label>
+                                <textarea class="form-control" id="productDescription" name="productDescription"
+                                    placeholder="Descrição produto..." rows="3"
+                                    required><?php echo isset($product) ? $product["descricao"] : ""; ?></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 mt-3">
+                            <div class="col-md-4">
+                                <label for="productBrand" class="form-label">Marca</label>
+                                <select class="form-select" id="productBrand" name="productBrand" required>
+                                    <option value="" disabled selected>Selecione uma marca...</option>
+                                    <?php
                             require("../requests/marcas/get.php");
                             if (!empty($response)) {
                                 foreach ($response["data"] as $marca) {
@@ -87,20 +110,28 @@ if (isset($_GET["key"])) {
                                 echo '<option value="" disabled>Nenhuma Marca cadastrada</option>';
                             }
                             ?>
-                        </select>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="productQuantity" class="form-label">Quantidade</label>
+                                <input type="number" min="0" class="form-control" id="productQuantity"
+                                    name="productQuantity" required
+                                    value="<?php echo isset($product) ? $product["quantidade"] : ""; ?>">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="productPrice" class="form-label">Preço</label>
+                                <input type="text" class="form-control" id="productPrice" name="productPrice" required
+                                    value="<?php echo isset($product) ? $product["preco"] : ''; ?>" placeholder="0,00">
+                            </div>
+                        </div>
+                        </form>
                     </div>
-                    <div class="mb-3">
-                        <label for="productQuantity" class="form-label">Quantidade</label>
-                        <input type="number" min="0" class="form-control" id="productQuantity" name="productQuantity" required value="<?php echo isset($product) ? $product["quantidade"] : ""; ?>">
+                    <div class="card-footer mb-3">
+                        <a href="/produtos" class="btn btn-danger btn-sm p-2">Cancelar</a>
+                        <button type="submit" class="btn btn-primary" form="productForm">Salvar</button>
                     </div>
-                    <div class="mb-3">
-                        <label for="productPrice" class="form-label">Preço</label>
-                        <input type="text" class="form-control" id="productPrice" name="productPrice" required value="<?php echo isset($product) ? $product["preco"] : ''; ?>" placeholder="0,00">
-                    </div>
+                </div>
 
-                    <a href="/produtos" class="btn btn-danger btn-sm p-2">Cancelar</a>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
-                </form>
             </div>
         </div>
     </div>

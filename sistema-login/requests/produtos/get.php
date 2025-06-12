@@ -1,8 +1,8 @@
 <?php
 if(isset($key) && is_numeric($key)){
-    $url = "http://localhost:8080/produtos/?id=". $key;
+    $url = "http://localhost:8082/produtos/?id=". $key;
 }else{
-    $url = "http://localhost:8080/produtos/";
+    $url = "http://localhost:8082/produtos/";
 }
 // INICIAR SESSÃO GLOBAL
 $curl = curl_init();

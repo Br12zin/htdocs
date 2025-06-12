@@ -27,7 +27,7 @@ if (isset($_GET["key"])) {
     <title>Dashboard - Cadastro de fornecedores</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- <link href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css" rel="stylesheet"> -->
+    <link href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -37,32 +37,41 @@ if (isset($_GET["key"])) {
     ?>
 
     <!-- Conteúdo principal -->
-    <div class="container mt-5">
+    <div class="container-fluid mt-5 vh-full">
         <div class="row">
             <div class="col-md">
-                <!-- Tabela de fornecedores cadastrados -->
-                <h2>
-                    Fornecedores Cadastrados
-                    <a href="/fornecedores/formulario.php" class="btn btn-primary btn-sm">Novo fornecedor</a>
-                    <a href="exportar.php" class="btn btn-success btn-sm float-left">Excel</a>
-                    <a href="exportar_pdf.php" class="btn btn-danger btn-sm float-left">PDF</a>
-                </h2>
-                <table id="myTable" class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Nome</th>
-                            <th scope="col">Razão Social</th>
-                            <th scope="col">CNPJ</th>
-                            <th scope="col">E-mail</th>
-                            <th scope="col">Whatsapp</th>
-                            <th scope="col"></th>
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h2>
+                            Fornecedores Cadastrados
 
-                        </tr>
-                    </thead>
-                    <tbody id="fornecedorTableBody">
-                        <!-- Os fornecedores serão carregados aqui via PHP -->
-                        <?php
+                        </h2>
+                        <div>
+                            <a href="/fornecedores/formulario.php" class="btn btn-primary btn-sm">Novo fornecedor</a>
+                            <a href="exportar.php" class="btn btn-success btn-sm float-left">Excel</a>
+                            <a href="exportar_pdf.php" class="btn btn-danger btn-sm float-left">PDF</a>
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Tabela de fornecedores cadastrados -->
+
+                        <table id="myTable" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Razão Social</th>
+                                    <th scope="col">CNPJ</th>
+                                    <th scope="col">E-mail</th>
+                                    <th scope="col">Whatsapp</th>
+                                    <th scope="col"></th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="fornecedorTableBody">
+                                <!-- Os fornecedores serão carregados aqui via PHP -->
+                                <?php
                         // SE HOUVER fornecedores NA SESSÃO, EXIBIR                        
                         $key = null; //limpar a variável $key para trazer todos os fornecedores
                         require("../requests/fornecedores/get.php");
@@ -91,8 +100,10 @@ if (isset($_GET["key"])) {
                             ';
                         }
                         ?>
-                    </tbody>
-                </table>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -105,14 +116,14 @@ if (isset($_GET["key"])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
 
-    <!-- <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
     <script>
-        let table = new DataTable('#myTable', {
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/pt-BR.json',
-            }
-        });
-    </script> -->
+    let table = new DataTable('#myTable', {
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/pt-BR.json',
+        }
+    });
+    </script>
 
 </body>
 

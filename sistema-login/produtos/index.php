@@ -46,8 +46,8 @@ if (isset($_GET["key"])) {
                         <h2>Produtos Cadastrados</h2>
                         <div>
                             <a href="/produtos/formulario.php" class="btn btn-primary btn-sm">Novo Produto</a>
-                            <a href="/clientes/exportar.php" class="btn btn-success btn-sm float-left">Excel</a>
-                            <a href="/clientes/exportar_pdf.php" class="btn btn-danger btn-sm float-left">PDF</a>
+                            <a href="/produtos/exportar.php" class="btn btn-success btn-sm float-left">Excel</a>
+                            <a href="/produtos/exportar_pdf.php" class="btn btn-danger btn-sm float-left">PDF</a>
                         </div>
                     </div>
                     <div class="card-body">

@@ -48,8 +48,8 @@ if (isset($_GET["key"])) {
                         </h2>
                         <div>
                             <a href="/fornecedores/formulario.php" class="btn btn-primary btn-sm">Novo fornecedor</a>
-                            <a href="exportar.php" class="btn btn-success btn-sm float-left">Excel</a>
-                            <a href="exportar_pdf.php" class="btn btn-danger btn-sm float-left">PDF</a>
+                            <a href="/fornecedores/exportar.php" class="btn btn-success btn-sm float-left">Excel</a>
+                            <a href="/fornecedores/exportar_pdf.php" class="btn btn-danger btn-sm float-left">PDF</a>
 
                         </div>
                     </div>

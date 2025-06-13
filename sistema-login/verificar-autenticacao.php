@@ -6,7 +6,7 @@ if(
     !isset($_SESSION["autenticado"]) ||  // OU
     $_SESSION["autenticado"] == false
 ) {
-    header('Location: http://localhost:8000/tela-login.php');
+    header('Location: http://localhost:8001/tela-login.php');
     exit;
 } 
 // VERIFICAR SE EXPIROU O TEMPO LIMITE DE INATIVIDADE

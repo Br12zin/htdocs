@@ -18,26 +18,43 @@ header("Pragma: no-cache");
 <table>
     <thead>
         <tr>
-            <th style="background:gray;font-weight:bold;border:1px solid black" scope="col">#</th>
+            <th style="background:gray;font-weight:bold;border:1px solid black" scope="col">Id</th>
             <th style="background:gray;font-weight:bold;border:1px solid black;width:300px" scope="col">Nome</th>
-            <th style="background:gray;font-weight:bold;border:1px solid black;width:100px" scope="col">CPF</th>
-            <th style="background:gray;font-weight:bold;border:1px solid black;width:250px" scope="col">E-mail</th>
+            <th style="background:gray;font-weight:bold;border:1px solid black;width:100px" scope="col">Razao Social</th>
+            <th style="background:gray;font-weight:bold;border:1px solid black;width:250px" scope="col">CNPJ</th>
             <th style="background:gray;font-weight:bold;border:1px solid black;width:120px" scope="col">Whatsapp</th>
+            <th style="background:gray;font-weight:bold;border:1px solid black;width:120px" scope="col">Email</th>
+            <th style="background:gray;font-weight:bold;border:1px solid black;width:120px" scope="col">Endereço</th>
+            <th style="background:gray;font-weight:bold;border:1px solid black;width:120px" scope="col">Número</th>
+            <th style="background:gray;font-weight:bold;border:1px solid black;width:120px" scope="col">Complemento</th>
+            <th style="background:gray;font-weight:bold;border:1px solid black;width:120px" scope="col">Bairro</th>
+            <th style="background:gray;font-weight:bold;border:1px solid black;width:120px" scope="col">Cidade</th>
+            <th style="background:gray;font-weight:bold;border:1px solid black;width:120px" scope="col">Estado(UF)</th>
+            <th style="background:gray;font-weight:bold;border:1px solid black;width:120px" scope="col">CEP</th>
         </tr>
     </thead>
     <tbody id="clientTableBody">
         <!-- Os clientes serão carregados aqui via PHP -->
         <?php
         // SE HOUVER CLIENTES NA SESSÃO, EXIBIR
-        if(!empty($_SESSION["clientes"])) {
-            foreach($_SESSION["clientes"] as $key => $client) {
+        require("../requests/fornecedores/get.php");
+        if(!empty($response)) {
+            foreach($response["data"] as $key => $fornecedor) {
                 echo '
                 <tr>
-                    <th style="border:1px solid black" scope="row">'.($key + 1).'</th>
-                    <td style="border:1px solid black">'.$client["clientName"].'</td>
-                    <td style="border:1px solid black">'.$client["clientCPF"].'</td>
-                    <td style="border:1px solid black">'.$client["clientEmail"].'</td>
-                    <td style="border:1px solid black">'.$client["clientWhatsapp"].'</td>
+                    <th style="border:1px solid black" scope="row">'.$fornecedor["id_fornecedor"].'</th>
+                    <td style="border:1px solid black">'.$fornecedor["nome"].'</td>
+                    <td style="border:1px solid black">'.$fornecedor["razao_social"].'</td>
+                    <td style="border:1px solid black">'.$fornecedor["cnpj"].'</td>
+                    <td style="border:1px solid black">'.$fornecedor["whatsapp"].'</td>
+                    <td style="border:1px solid black">'.$fornecedor["email"].'</td>
+                    <td style="border:1px solid black">'.$fornecedor["endereco"]["logradouro"].'</td>
+                    <td style="border:1px solid black">'.$fornecedor["endereco"]["numero"].'</td>
+                    <td style="border:1px solid black">'.$fornecedor["endereco"]["complemento"].'</td>
+                    <td style="border:1px solid black">'.$fornecedor["endereco"]["bairro"].'</td>
+                    <td style="border:1px solid black">'.$fornecedor["endereco"]["cidade"].'</td>
+                    <td style="border:1px solid black">'.$fornecedor["endereco"]["estado"].'</td>
+                    <td style="border:1px solid black">'.$fornecedor["endereco"]["cep"].'</td>
                 </tr>
                 ';
             }

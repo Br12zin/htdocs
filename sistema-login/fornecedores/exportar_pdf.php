@@ -6,16 +6,24 @@ include "../verificar-autenticacao.php";
 require_once '../mpdf/vendor/autoload.php';
 
 $lista = "";
-if(!empty($_SESSION["fornecedores"])) {
-    foreach($_SESSION["fornecedores"] as $key => $fornecedor) {
+require("../requests/fornecedores/get.php");
+if(!empty($response)) {
+    foreach($response["data"] as $key => $fornecedor) {
         // .= ADICIONA ITENS NA VARIÁVEL $lista
         $lista .= '
         <tr>
-            <th style="border:1px solid black" scope="row">'.($key + 1).'</th>
-            <td style="border:1px solid black">'.$fornecedor["fornecedorName"].'</td>
-            <td style="border:1px solid black">'.$fornecedor["fornecedorCNPJ"].'</td>
-            <td style="border:1px solid black">'.$fornecedor["FornecedorEmail"].'</td>
-            <td style="border:1px solid black">'.$fornecedor["FornecedorWhatsapp"].'</td>
+            <th style="border:1px solid black" scope="row">'.$fornecedor["id_fornecedor"].'</th>
+            <td style="border:1px solid black">'.$fornecedor["razao_social"].'</td>
+            <td style="border:1px solid black">'.$fornecedor["cnpj"].'</td>
+            <td style="border:1px solid black">'.$fornecedor["whatsapp"].'</td>
+            <td style="border:1px solid black">'.$fornecedor["email"].'</td>
+            <td style="border:1px solid black">'.$fornecedor["endereco"]["logradouro"].'</td>
+            <td style="border:1px solid black">'.$fornecedor["endereco"]["numero"].'</td>
+            <td style="border:1px solid black">'.$fornecedor["endereco"]["bairro"].'</td>
+            <td style="border:1px solid black">'.$fornecedor["endereco"]["cidade"].'</td>
+            <td style="border:1px solid black">'.$fornecedor["endereco"]["estado"].'</td>
+            <td style="border:1px solid black">'.$fornecedor["endereco"]["cep"].'</td>
+
         </tr>
         ';
     }
@@ -50,16 +58,22 @@ $html = '
 <body>
     <h1 style="text-align:center">Lista de Clientes</h1>
     <p style="text-align:center">Data: '.date('d/m/Y').'</p>
-    <p style="text-align:center">Total de Clientes: '.count($_SESSION["clientes"]).'</p>
+    <p style="text-align:center">Total de Clientes: '.count($response["data"]).'</p>
     <table>
         <thead>
-            <tr>
-                <th style="background:gray;font-weight:bold" scope="col">#</th>
-                <th style="background:gray;font-weight:bold;" scope="col">Imagem</th>
-                <th style="background:gray;font-weight:bold;width:300px" scope="col">Nome</th>
-                <th style="background:gray;font-weight:bold;width:100px" scope="col">CPF</th>
-                <th style="background:gray;font-weight:bold;width:250px" scope="col">E-mail</th>
-                <th style="background:gray;font-weight:bold;width:120px" scope="col">Whatsapp</th>
+        <tr>
+        <th style="background:gray;font-weight:bold;border:1px solid black;width:100px" scope="col">id</th>
+        <th style="background:gray;font-weight:bold;border:1px solid black;width:100px" scope="col">Razao Social</th>
+            <th style="background:gray;font-weight:bold;border:1px solid black;width:250px" scope="col">CNPJ</th>
+            <th style="background:gray;font-weight:bold;border:1px solid black;width:120px" scope="col">Whatsapp</th>
+            <th style="background:gray;font-weight:bold;border:1px solid black;width:120px" scope="col">Email</th>
+            <th style="background:gray;font-weight:bold;border:1px solid black;width:120px" scope="col">Endereço</th>
+            <th style="background:gray;font-weight:bold;border:1px solid black;width:120px" scope="col">Número</th>
+            <th style="background:gray;font-weight:bold;border:1px solid black;width:120px" scope="col">Complemento</th>
+            <th style="background:gray;font-weight:bold;border:1px solid black;width:120px" scope="col">Bairro</th>
+            <th style="background:gray;font-weight:bold;border:1px solid black;width:120px" scope="col">Cidade</th>
+            <th style="background:gray;font-weight:bold;border:1px solid black;width:120px" scope="col">Estado(UF)</th>
+            <th style="background:gray;font-weight:bold;border:1px solid black;width:120px" scope="col">CEP</th>
             </tr>
         </thead>
         <tbody id="clientTableBody">

@@ -57,40 +57,10 @@ if (isset($_GET["key"])) {
                                         value="<?php echo isset($product) ? $product["id_produto"] : ""; ?>">
                             </div>
                             <div class="col-md-9">
-                                <label for="productName" class="form-label">Nome do produto</label>
+                                <label for="productName" class="form-label">Produto</label>
                                 <input onblur="teste()" type="text" class="form-control" id="productName"
                                     name="productName" required
                                     value="<?php echo isset($product) ? $product["produto"] : ""; ?>">
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-7">
-                                <div class="mb-3">
-                                    <label for="productImage" class="form-label">Imagem</label>
-                                    <input type="file" class="form-control" id="productImage" name="productImage"
-                                        accept="image/*" value="<?php echo isset($product) ? $product["imagem"] : ""; ?>">
-                                </div>
-                            </div>
-                            <div class="col-md-3 d-flex align-items-center"> 
-                            <?php
-                                // SE HOUVER IMAGEM NO CLIENTE, EXIBIR MINIATURA
-                                if (isset($product["imagem"])) {
-                                    echo '
-                                        <input type="hidden" name="currentProductImage" value="' . $product["imagem"] . '">
-                                        <img width="100" height="auto" src="/produtos/imagens/' . $product["imagem"] . '">
-                                    ';
-                                }
-                                ?>
-                                </div>
-                        </div>
-
-                        <div class="row mb-3 mt-3">
-                            <div class="col-md-8">
-                                <label for="productDescription" class="form-label">Descrição</label>
-                                <textarea class="form-control" id="productDescription" name="productDescription"
-                                    placeholder="Descrição produto..." rows="3"
-                                    required><?php echo isset($product) ? $product["descricao"] : ""; ?></textarea>
                             </div>
                         </div>
 
@@ -122,6 +92,37 @@ if (isset($_GET["key"])) {
                                 <label for="productPrice" class="form-label">Preço</label>
                                 <input type="text" class="form-control" id="productPrice" name="productPrice" required
                                     value="<?php echo isset($product) ? $product["preco"] : ''; ?>" placeholder="0,00">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-7">
+                                <div class="mb-3">
+                                    <label for="productImage" class="form-label">Imagem</label>
+                                    <input type="file" class="form-control" id="productImage" name="productImage"
+                                        accept="image/*"
+                                        value="<?php echo isset($product) ? $product["imagem"] : ""; ?>">
+                                </div>
+                            </div>
+                            <div class="col-md-3 d-flex align-items-center">
+                                <?php
+                                // SE HOUVER IMAGEM NO CLIENTE, EXIBIR MINIATURA
+                                if (isset($product["imagem"])) {
+                                    echo '
+                                        <input type="hidden" name="currentProductImage" value="' . $product["imagem"] . '">
+                                        <img width="100" height="auto" src="/produtos/imagens/' . $product["imagem"] . '">
+                                    ';
+                                }
+                                ?>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 mt-3">
+                            <div class="col-md-8">
+                                <label for="productDescription" class="form-label">Descrição</label>
+                                <textarea class="form-control" id="productDescription" name="productDescription"
+                                    placeholder="Descrição produto..." rows="3"
+                                    required><?php echo isset($product) ? $product["descricao"] : ""; ?></textarea>
                             </div>
                         </div>
                         </form>

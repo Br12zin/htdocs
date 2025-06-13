@@ -6,24 +6,26 @@ include "../verificar-autenticacao.php";
 require_once '../mpdf/vendor/autoload.php';
 
 $lista = "";
-if(!empty($_SESSION["clientes"])) {
-    foreach($_SESSION["clientes"] as $key => $client) {
+require("../requests/produtos/get.php");
+if(!empty($response)) {
+    foreach($response["data"] as $key => $product) {
         // .= ADICIONA ITENS NA VARIÁVEL $lista
         $lista .= '
         <tr>
-            <th style="border:1px solid black" scope="row">'.($key + 1).'</th>
-            <td style="border:1px solid black"><img src="imagens/'.$client["clientImage"].'" width="100"></td>
-            <td style="border:1px solid black">'.$client["clientName"].'</td>
-            <td style="border:1px solid black">'.$client["clientCPF"].'</td>
-            <td style="border:1px solid black">'.$client["clientEmail"].'</td>
-            <td style="border:1px solid black">'.$client["clientWhatsapp"].'</td>
+            <th style="border:1px solid black" scope="row">'.$product["id_produto"].'</th>
+            <td style="border:1px solid black"><img src="imagens/'.$product["imagem"].'" width="100"></td>
+            <td style="border:1px solid black">'.$product["produto"].'</td>
+            <td style="border:1px solid black">'.$product["descricao"].'</td>
+            <td style="border:1px solid black">'.$product["id_marca"].'</td>
+            <td style="border:1px solid black">'.$product["quantidade"].'</td>
+            <td style="border:1px solid black">'.$product["preco"].'</td>
         </tr>
         ';
     }
 } else {
     echo '
     <tr>
-        <td colspan="4">Nenhum cliente cadastrado</td>
+        <td colspan="4">Nenhum produto cadastrado</td>
     </tr>
     ';
 }
@@ -49,21 +51,22 @@ $html = '
     </style>
 </head>
 <body>
-    <h1 style="text-align:center">Lista de Clientes</h1>
+    <h1 style="text-align:center">Lista de produtos</h1>
     <p style="text-align:center">Data: '.date('d/m/Y').'</p>
-    <p style="text-align:center">Total de Clientes: '.count($_SESSION["clientes"]).'</p>
+    <p style="text-align:center">Total de produtos: '.count($response["data"]).'</p>
     <table>
         <thead>
             <tr>
-                <th style="background:gray;font-weight:bold" scope="col">#</th>
-                <th style="background:gray;font-weight:bold;" scope="col">Imagem</th>
-                <th style="background:gray;font-weight:bold;width:300px" scope="col">Nome</th>
-                <th style="background:gray;font-weight:bold;width:100px" scope="col">CPF</th>
-                <th style="background:gray;font-weight:bold;width:250px" scope="col">E-mail</th>
-                <th style="background:gray;font-weight:bold;width:120px" scope="col">Whatsapp</th>
+                <th style="background:gray;font-weight:bold" scope="col">id</th>
+                <th style="background:gray;font-weight:bold;border:1px solid black;width:300px" scope="col">Imagem</th>
+                <th style="background:gray;font-weight:bold;border:1px solid black;width:300px" scope="col">Produto</th>
+                <th style="background:gray;font-weight:bold;border:1px solid black;width:100px" scope="col">Descrição</th>
+                <th style="background:gray;font-weight:bold;border:1px solid black;width:250px" scope="col">Código da Marca</th>
+                <th style="background:gray;font-weight:bold;border:1px solid black;width:120px" scope="col">Quantidade</th>
+                <th style="background:gray;font-weight:bold;border:1px solid black;width:120px" scope="col">Preco</th>
             </tr>
         </thead>
-        <tbody id="clientTableBody">
+        <tbody id="productTableBody">
             '.$lista.'
         </tbody>
     </table>
@@ -78,7 +81,7 @@ $mpdf = new \Mpdf\Mpdf();
 $mpdf->WriteHTML($html);
 
 // Define o nome do arquivo PDF para download
-$nomeArquivo = 'clientes_'.date('YmdHis').'.pdf';
+$nomeArquivo = 'produtos_'.date('YmdHis').'.pdf';
 // Define as dimensões do PDF
 $mpdf->SetDisplayMode('fullpage');
 $mpdf->SetMargins(10, 10, 10);
